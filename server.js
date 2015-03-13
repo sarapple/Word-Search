@@ -31,8 +31,5 @@ console.log('**********                                                     ****
 console.log('**********                                                     **********');
 console.log('*************************************************************************\n');
 });
-var io 			= require('socket.io').listen(server),				// Have io listen on same server
-	routes 		= require('./config/routes-ajax')(app),          	// Require routes files for ajax
-	socket 		= require('./config/routes-socket')(app, io);    	// Require routes files for socket.io
-
-
+// var io 			= require('socket.io').listen(server),				// Have io listen on same server
+	routes 		= require('./config/routes-ajax')(app);          	// Require routes files for ajax   

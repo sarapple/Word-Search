@@ -1,96 +1,163 @@
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+#title h3{
+  padding-right: 1em;
+  vertical-align: middle;
+  display: inline-block;
+  margin: 1em 0 0.5em 0;
+  color: #343434;
+  font-weight: normal;
+  font-family: 'Ultra', sans-serif;   
+  font-size: 36px;
+  line-height: 42px;
+  text-transform: uppercase;
+  text-shadow: 0 2px white, 0 3px #777;
 }
-img {
-	display: inline-block;
-	width: 3em;
-	height: auto;
-}
-#rooms {
-	display: inline-block;
-	height: 100vh;
-	width: 20%;
-	background-color: #2A2323;
+#middle {
+	/*overflow: hidden;*/
 	vertical-align: top;
+	display: block;
 }
-	#rooms p {
-		padding: .5em 0em .5em .5em;
-		color: white;
-	}
-	#rooms ul li {
-		color: gray;
-		padding: .5em 0em .5em 1em;
-	}
-		#rooms ul li a {
-			color: white;
-		}
-	#me-container {
-		width: 100%;
-		background-color: #471F30;	
-	}
-		#me-container #me-img {
-			display: inline-block;
-			width: auto;
-			height: auto;
-			padding: 1em;
-		}
-#main {
-	display: inline-block;
-	width: 79%;
-	vertical-align: top;
-}
-	#messages {
-		height: 90vh;
-		overflow-y: scroll;
-		margin-bottom: 1em;
-	}
-	#messages * {
-		word-wrap: break-word;
-	}
-	#message-img {
-		display: inline-block;
-	}
-	#message-content {
-		display: inline-block;
-		width: 80%;
-	}
-	.name {
-		display: inline-block;
-		font-weight: bold;
-	}
-	.date {
-		display: inline-block;
-		font-weight: normal;
-		padding-left: 1em;
-		color: #ccc;
-	}
-#im {
-	height: 5vh;
-	position: absolute;
-	width: 70%;
-	padding-left: 1em;
-	padding-right: 1em;
-	bottom: 0;
-	right: 1em;
-}
-#im * {
-	width: 100%;
-	border: .1em dotted gray;
-}
-#create-user {
-	color: white;
-	padding: .3em;
-}
-#create-user * {
-	margin: .3em;
-	border-radius: 1em;
-	width: 90%;
-}
-#chat {
-	height: 95vh;
-	overflow-y: scroll;
-}
-#messages {
+  #middle table {
+  	vertical-align: top;
+  	display: inline-block;
+  }
+  .letterList {
+    vertical-align: top;
+    display: inline-block;
+  }
+  .wordList {
+    color: blue;
+    display: inline-block;
+  }
+    h3{
+      color: black;
+    }
+    ul {
+    	height: 80vh;
+    	padding-top: 1em;
+    	padding-left: .3em;
+    	overflow-x: scroll;
+    }
+      li{
+        color: gray;
+      }
+/*Styling for my word list*/
 
+
+.arrow-down {
+  display: inline-block;
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #4B99DF;
 }
-	
+
+/*Pretty Answer button http://www.sanwebe.com/2013/01/40-css-buttons-from-codepen */
+button {
+    border: 0;
+    background: #5786c1;
+    color: white;
+    padding: 8px 14px;
+    font-weight: bold;
+    font-size: 18px;
+    text-decoration: none;
+    display: inline-block;
+    /* needed for anchors */
+    position: relative;
+    box-shadow: 1px 0px #3a587f, 0px 1px #4171ae, 2px 1px #3a587f, 1px 2px #4171ae, 3px 2px #3a587f, 2px 3px #4171ae, 4px 3px #3a587f, 3px 4px #4171ae, 5px 4px #3a587f, 4px 5px #4171ae, 6px 5px #3a587f, 5px 6px #4171ae;
+}
+button:hover, button:focus, button.hover, button.focus, .button:hover, .button:focus, .button.hover, .button.focus, input[type=submit]:hover, input[type=submit]:focus, input[type=submit].hover, input[type=submit].focus {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 0px #3a587f, 0px 1px #4171ae, 2px 1px #3a587f, 1px 2px #4171ae, 3px 2px #3a587f, 2px 3px #4171ae, 4px 3px #3a587f, 3px 4px #4171ae;
+}
+button:active, button.active, .button:active, .button.active, input[type=submit]:active, input[type=submit].active {
+  transform: translate(4px, 4px);
+  box-shadow: 1px 0px #3a587f, 0px 1px #4171ae, 2px 1px #3a587f, 1px 2px #4171ae;
+}
+
+/* extract from animate.css - MIT license*/
+.animated {
+  -webkit-animation-duration: 5s;
+  animation-duration: 5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes hinge {
+  0% {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  20%, 60% {
+    -webkit-transform: rotate3d(0, 0, 1, 80deg);
+    transform: rotate3d(0, 0, 1, 80deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  40%, 80% {
+    -webkit-transform: rotate3d(0, 0, 1, 60deg);
+    transform: rotate3d(0, 0, 1, 60deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 700px, 0);
+    transform: translate3d(0, 700px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes hinge {
+  0% {
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  20%, 60% {
+    -webkit-transform: rotate3d(0, 0, 1, 80deg);
+    -ms-transform: rotate3d(0, 0, 1, 80deg);
+    transform: rotate3d(0, 0, 1, 80deg);
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  40%, 80% {
+    -webkit-transform: rotate3d(0, 0, 1, 60deg);
+    -ms-transform: rotate3d(0, 0, 1, 60deg);
+    transform: rotate3d(0, 0, 1, 60deg);
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 700px, 0);
+    -ms-transform: translate3d(0, 700px, 0);
+    transform: translate3d(0, 700px, 0);
+    opacity: 0;
+  }
+}
+
+.hinge {
+  -webkit-animation-name: hinge;
+  animation-name: hinge;
+}

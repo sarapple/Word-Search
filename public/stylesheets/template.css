@@ -1,3 +1,4 @@
+/** created by SARA WONG **/
 /*** CSS GLOBAL RESETS ***/
 /* BEGIN CSS RESETS --> */
 html {
@@ -31,76 +32,189 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	font-family: 'Open Sans',sans-serif;
-	/*font-family: "Trebuchet MS", Helvetica, sans-serif;*/
-	/*font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;*/
 	vertical-align: baseline;
 }
 ol, ul {
 	list-style: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+	/*border-collapse: collapse;*/
+	border-spacing: 20;
 }
 /* <-- END GLOBAL RESETS */
-/* Media queries for standard devices */
-/* Smartphones (portrait and landscape) ----------- */
-@media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 480px) {
-/* Styles */
-}
 
-/* Smartphones (landscape) ----------- */
-@media only screen 
-and (min-width : 321px) {
-/* Styles */
+/*** GRID SYSTEM ***/
+/* Begin GRID SYSTEM --> */
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
+	.row {
+		clear: both;
+	 	margin-right: -15px;
+	  	margin-left: -15px;
+	  	display: block;
+	}
+	.c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8, .c9, .c10, .c11, .c12 {
+	    float: left;
+	}	/* float all columns left */
+		.c1 { width: 8.33333333%; }
+		.c2 { width: 16.66666667%; }
+		.c3 { width: 25%; }
+		.c4 { width: 33.33333333%; }
+		.c5 { width: 41.66666667%; }
+		.c6 { width: 50%; }
+		.c7 { width: 58.33333333%; }
+		.c8 { width: 66.66666667%; }
+		.c9 { width: 75%; }
+		.c10 { width: 83.33333333%; }
+		.c11 { width: 91.66666667%; }
+		.c12 { width: 100%; }
+		.o1 { margin-left: 8.33333333%; }
+		.o2 { margin-left: 16.66666667%; }
+		.o3 { margin-left: 25%; }
+		.o4 { margin-left: 33.33333333%; }
+		.o5 { margin-left: 41.66666667%; }
+		.o6 { margin-left: 50%; }
+		.o7 { margin-left: 58.33333333%; }
+		.o8 { margin-left: 66.66666667%; }
+		.o9 { margin-left: 75%; }
+		.o10 { margin-left: 83.33333333%; }
+		.o11 { margin-left: 91.66666667%; }
+		.o12 { margin-left: 100%; }
+/* <-- End GRID System */
 
-/* Smartphones (portrait) ----------- */
-@media only screen 
-and (max-width : 320px) {
-/* Styles */
-}
+/*** General fixes/adjustments ***/
+/* TABLE ADJUSTMENTS BEGIN --> */
+table {
+		margin-top: 1em;
+		margin-bottom: 1em;
+		/*height: 100%;*/
+		/*width: 100%;*/
+	    border-collapse:separate;
+	    border: solid #ccc .1em;
+	    border-radius: .4em;
+	}
+	table tr {
+		/*width: 100%;*/
+	}
+	table tr:nth-child(2n){
 
-/* iPads (portrait and landscape) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) {
-/* Styles */
+		background-color: RGB(245, 245, 245);
+	}
+	table th {
+	  	padding-left: 1em;
+	  	padding-right: 1em;
+	  	text-align: left;
+		background-color: RGB(240, 240, 240);
+		border-top: none;
+		border-right: .1em solid RGB(181, 181, 181);
+		border-bottom: .1em solid RGB(181, 181, 181);
+	}
+		table th:first-child {
+			border-left: none;
+		}
+		table th:last-child {
+			border-right: none;
+		}
+	table td {
+		padding: .5em .5em .5em .5em;
+		border-right: .1em solid RGB(240, 240, 240);
+		border-bottom: .1em solid RGB(240, 240, 240);
+	}
+		table td:first-child {
+			border-left: .1em solid RGB(240, 240, 240);
+		}
+/* <-- END TABLE ADJUSTMENTS */
+/* FORM ADJUSTMENTS BEGIN --> */
+form {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	width: 100%;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	border: solid #ccc .1em;
+	border-radius: .5em;
 }
-
-/* iPads (landscape) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
-and (orientation : landscape) {
-/* Styles */
-}
-
-/* iPads (portrait) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
-and (orientation : portrait) {
-/* Styles */
-}
-
-/* Desktops and laptops ----------- */
-@media only screen 
-and (min-width : 1224px) {
-/* Styles */
-}
-
-/* Large screens ----------- */
-@media only screen 
-and (min-width : 1824px) {
-/* Styles */
-}
-
-/* iPhone 4 ----------- */
-@media
-only screen and (-webkit-min-device-pixel-ratio : 1.5),
-only screen and (min-device-pixel-ratio : 1.5) {
-/* Styles */
-}
+	form * {
+		margin-bottom: .5em;
+	}
+	label {
+		padding-left: 1em;
+		vertical-align: top;
+		display: block;
+	}
+	input {
+		margin-left: 1em;
+		padding: .5em;
+		border-radius: .4em;
+		background-color: RGB(245, 245, 245);
+		display: block;
+	}
+		input[type="text"]{
+			border: 1px solid #ccc
+		}
+		input[type="password"]{
+			border: 1px solid #ccc
+		}
+		input[type="textarea"]{
+			border: 1px solid #ccc
+		}
+		input[type="submit"]{
+			color: white;
+			background-color: RGB(99, 140, 166);
+			border: 1px solid gray;
+		}
+	textarea {
+		margin-left: 1em;
+		padding-top: .4em;
+		padding-bottom: .4em;
+		border-radius: .4em;
+		background-color: RGB(245, 245, 245);
+		border: 1px solid RGB(128, 128, 128);
+	}
+	select{		
+		margin-left: 1em;
+		border: 1px solid #ccc;
+		border-radius: .4em;
+	}
+/* <-- END FORM ADJUSTMENTS */
+/* OTHER ADJUSTMENTS BEGIN --> */
+	/* RESETS */
+	/*	SPACING */
+	.padding-top { padding-top: 1em }
+	.padding-right { padding-right: 1em }
+	.padding-bottom { padding-bottom: 1em }
+	.padding-left { padding-left: 1em }
+	.margin-top { margin-top: 1em }
+	.margin-right { margin-right: 1em }
+	.margin-bottom { margin-bottom: 1em }
+	.margin-left { margin-left: 1em }
+	.margin-auto { margin: auto }
+	.display-inline-block { display: inline-block;}
+	#no-background{ background: none }
+	#no-padding{ padding: 0 }
+	#no-margin{ margin: 0 }
+	.hundred { width: 100%; }
+	/* TEXT */
+	a { text-decoration: none;
+		color: RGB(77, 175, 224) }
+	.text-center { text-align: center }
+	.text-right { text-align: right }
+	.text-left { text-align: left }
+	h1 { font-size: 4em }
+	h2 { font-size: 3em }
+	h3 { font-size: 2em }
+	h4 { font-size: 1.5em }
+	p { font-size: 1em }
+	/* Border/Outlines */
+	.border {
+		padding: 1em;
+		border: 1px solid #ccc;
+		border-radius: .3em;
+	}
+	#no-border { border: none }
+	/* colors */
+/* <-- END OTHER ADJUSTMENTS */

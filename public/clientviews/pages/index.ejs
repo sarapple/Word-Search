@@ -6,67 +6,74 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="Single Page, Chat App build on MEAN stack, MongoDB, Express.io, Angular, and Node.js"
+        <meta name="description" content="Single Page Word Search App. From a jumble of letters and random words, find the coordinates of each word. Display them in Node.js"
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
-        <title>Chat Rooms</title>
+        <title>Word Search Node.js</title>
         <!-- custom css -->     
         <link rel="stylesheet" type="text/css" href="./stylesheets/template.css">
         <link rel="stylesheet" type="text/css" href="./stylesheets/tailored.css">
-        <!-- load external script -->           
-        <script src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript" src="./js/external/angular.js">
-        </script>
-        <script type="text/javascript" src="./js/external/angular-route.js">
-        </script>       
+        <!-- load external script -->            
         <script type="text/javascript" src="./js/external/jquery.min.js">
         </script>
-        <!-- angular app, model, and controllers -->
-        <script type="text/javascript" src="./js/app.js">
-        </script>
-        <script type="text/javascript" src="./js/factories/model.js"></script>
-        <script type="text/javascript" src="./js/controllers/controller.js"></script>
          <!-- customized js script -->
-        <script type="text/javascript" src="./js/scripts/io.js"></script>
         <script type="text/javascript" src="./js/scripts/script.js"></script>
     </head>
-    <body id='app' data-ng-init="initializeMe()" ng-controller="appController" ng-app='App'>
-        <div id='rooms'>
-            <p>Coding Dojo Chat Rooms</p>
-            <ul class="room">
-                <li>#<a ng-click="setRoom('oct')" href='#/oct'> CD Oct</a></li>
-                <li>#<a ng-click="setRoom('jan')" href='#/jan'> CD Jan</a></li>
-                <li>#<a ng-click="setRoom('feb')" href='#/feb'> CD Feb</a></li>
-            </ul>
-            <% if (typeof user_id !== 'undefined') { %>
-            <div id="me-container">
-                <div id="me-img">
-                    <img src="img/logo.gif">
-                </div>
-                <div id="me">
-                    <p class="person"><%= username %></p>
-                    <p>o Online</p>
+    <body>
+        <div class='container'>
+            <div class='row'>
+                <div id='header' class='c11 o1'>
+                    <div id='title' class='c7 o1'>
+                        <h3>Word Search</h3>
+                        <button class='answers'>Answers</button>
+                        <h4>Click on the first and last letter!</p>
+                    </div>
                 </div>
             </div>
-            <% } else { %>
-            <div id="me-container">
-                <form id="create-user">
-                    <label>Username</label>
-                        <input type="text" ng-model="username" name="username" />
-                    <label>Password</label>
-                        <input type="password" ng-model="password" name="password" />
-                    <button ng-click="join()" class="join">Join Chat</button>
-                </form>
-                <p ng-bind="notice.msg"></p>
-            </div>            
-            <% } %>
-        </div>
-        <div id='main'>
-            <div id='chat'>
-                <div ng-view=""></div>
+            <div class='row'>
+                <div id='middle' class='middle 10 o1'>
+                    <div class='letterList'>
+                        <table>
+                            <tbody>
+                                <%  for(var i=0; i < letters.length; i++){             %>
+                                    <tr>
+                                <%      for(var j=0; j < letters[i].length; j++){      
+                                        var iString = i.toString();
+                                        var jString = j.toString();        %>
+                                        <td id='x<%=i%>y<%=j%>' class='<%=j%>,<%=i%>'><%=letters[i][j]%></td>
+                                <%      }                                       %>
+                                    </tr>
+                                <%  }                                           %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='wordList'>
+                        <h3>Find Words</h3>
+                        <ul>
+                    <%      for(var i=0; i < results.length; i++){  
+                        console.log(results[i]);
+                                 %>
+                            <li class='<%=results[i].word%>'><%=results[i].word%></li>
+                    <%   }                                      %>
+                        </ul>
+                        <div class='arrow-down'></div>
+                    </div>
+                </div>
             </div>
-            <form action="" method="" ng-show="loggedIn" id="im">
-                <input type="text" class="post" />
-            </form>
+            <div class='row'>
+                  <div id='answers-container' class='c10 o1'>
+                        <table>
+                            <thead> 
+                                <tr>
+                                    <th>Word</th>
+                                    <th>YCoordinate</th>
+                                    <th>XCoordinate</th>
+                                    <th>Direction</th>
+                                </tr>
+                            </thead>
+                            <tbody id='answers'></tbody>
+                        </table>
+                  </div>              
+            </div>
         </div>
     </body>
 </html>
