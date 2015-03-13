@@ -23,7 +23,7 @@ $( document ).ready(function(){
       				var move = [0,0];
       				$(box).css('background-color', colorRand);
       				switch (direction){
-      					case 'up':
+      					case 'top':
       						move = [-1,0];
       						break;
       					case 'bot':

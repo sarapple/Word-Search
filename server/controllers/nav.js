@@ -8,9 +8,7 @@ module.exports = {
 	// Display the view that includes letters, words, and results
 	index: function(req, res){
         var letters = this.loadText("./public/puzzle/WordSearch.txt", 'utf8');
-        console.log(letters);
             words = this.loadText("./public/puzzle/WordList.txt", 'utf8'),
-            console.log(words);
             results = this.processWordSearch(letters,words);
             send = {    letters: letters,
                         words: words,
