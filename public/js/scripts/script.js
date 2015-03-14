@@ -104,6 +104,11 @@ $( document ).ready(function(){
 				$(element).addClass('animated hinge');
 				$(element).css('height', 0).delay(2000);
 			}
+			else {
+				for (var i = 0; i < boxes.length; i++) {
+					boxes[i].css("background-color", "");
+				}
+			}
 			counter = 1,
 			letter = {},
 			letters = [],
