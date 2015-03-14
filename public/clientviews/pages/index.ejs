@@ -39,7 +39,7 @@
                                 <%      for(var j=0; j < letters[i].length; j++){      
                                         var iString = i.toString();
                                         var jString = j.toString();        %>
-                                        <td id='x<%=i%>y<%=j%>' class='<%=j%>,<%=i%>'><%=letters[i][j]%></td>
+                                        <td id='x<%=j%>y<%=i%>' class='<%=j%>,<%=i%>'><%=letters[i][j]%></td>
                                 <%      }                                       %>
                                     </tr>
                                 <%  }                                           %>
@@ -65,8 +65,8 @@
                             <thead> 
                                 <tr>
                                     <th>Word</th>
-                                    <th>YCoordinate</th>
                                     <th>XCoordinate</th>
+                                    <th>YCoordinate</th>
                                     <th>Direction</th>
                                 </tr>
                             </thead>

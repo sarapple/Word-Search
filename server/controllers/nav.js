@@ -9,6 +9,7 @@ module.exports = {
 	index: function(req, res){
         var letters = this.loadText("./public/puzzle/WordSearch.txt", 'utf8');
             words = this.loadText("./public/puzzle/WordList.txt", 'utf8'),
+            console.log(words);
             results = this.processWordSearch(letters,words);
             send = {    letters: letters,
                         words: words,
@@ -17,15 +18,17 @@ module.exports = {
         res.render('pages/index', send);
 	},
 
-    //function to set up word search view and answers
+    // Function to set up word search view and answers
     processWordSearch: function(letters, words){
-        var markers = this.nodesCreated(letters);
-        var markers = this.connectNodes(markers, markers[0+','+0]);
-        var results = this.findWords(markers,words, markers[0+','+0]);
+        var markers =   this.nodesCreated(letters);
+            markers =   this.connectNodes(markers, markers['0,0']);
+            console.log(markers['0,11']);
+                        this.findWords(markers, words, markers['0,0']);
+                        console.log(markers['1,1']);
         return this.getWords();
     }, 
 
-    //read .txt file synchronously and return a 2D array, each array separated by new line
+    // Read .txt file synchronously and return a 2D array, each array separated by new line
     loadText: function(file, type){
         var letters = fs.readFileSync(file, type),
             rowArray = letters.split('\n'),
@@ -56,128 +59,91 @@ module.exports = {
         return twoDArray;
     },
 
-    //Create nodes for each letter, with direction properties!
+    // Create nodes for each letter, with direction properties! 
     nodesCreated: function(twoDArray){
         Letter = function(letter, coordX, coordY){
             this.letter = letter;
-            this.coordX = coordX;
             this.coordY = coordY;
-            this.top = null;
-            this.bot = null;
-            this.left = null;
-            this.right = null;
-            this.dul = null;
-            this.dur = null;
-            this.ddl = null;
-            this.ddr = null;
+            this.coordX = coordX;
+            this.top    = null;
+            this.bot    = null;
+            this.left   = null;
+            this.right  = null;
+            this.dul    = null;
+            this.dur    = null;
+            this.ddl    = null;
+            this.ddr    = null;
+            this.touched= false; //keep track to make sure ALL letters were identified
+            this.searched=false;
         }
 
-        //markers is used to create dynamic variables as I build objects from the same class in a loop
+        // Markers is used to create dynamic variables as I build objects from the same class in a loop
         var markers = [];
-        for(var i=0; i < twoDArray.length; i++){
-            for(var j=0; j < twoDArray[i].length; j++){
-                coord = i.toString()+','+j.toString();
-                markers[coord] = new Letter(twoDArray[i][j], i, j);    
+        this.counter=0; //temp
+        this.letters=0; //temp
+        for(var y=0; y < twoDArray.length; y++){
+            for(var x=0; x < twoDArray[y].length; x++){
+                coord = y.toString()+','+x.toString();
+                markers[coord] = new Letter(twoDArray[y][x], x, y);  
+                this.counter++ //keep track of letters created
             }                                       
         }  
         return markers;   
     },
 
-    //connect the nodes with pointers
+    // Connect the nodes with pointers
     connectNodes: function(markers, node){
-        var i = node.coordX,
-            j = node.coordY; 
-
-        //assign pointers for all directions for each letter
-        if(typeof(markers[(i+1)+','+j]) != 'undefined' && markers[i+','+j].bot == null){                    //go bot
-            markers[i+','+j].bot = markers[(i+1)+','+j]; 
-            this.connectNodes(markers, markers[(i+1)+','+j]); 
+        if(!node.touched){
+            this.letters++;
         }
-        if(typeof(markers[(i-1)+','+j]) != 'undefined' && markers[i+','+j].top == null){                    //go top
-            markers[i+','+j].top = markers[(i-1)+','+j]; 
-            this.connectNodes(markers, markers[(i-1)+','+j]);  
+        node.touched = true; 
+        var x = node.coordX,
+            y = node.coordY,
+            goRight      = markers[(y)+','+(x+1)],
+            goLeft       = markers[(y)+','+(x-1)],
+            goBot        = markers[(y+1)+','+(x)],
+            goTop        = markers[(y-1)+','+(x)],
+            goBotLeft    = markers[(y+1)+','+(x-1)],
+            goBotRight   = markers[(y+1)+','+(x+1)],
+            goTopLeft    = markers[(y-1)+','+(x-1)],
+            goTopRight   = markers[(y-1)+','+(x+1)];
+        if(typeof(goBot) !=='undefined' && node.bot === null){                  //go bot
+            node.bot = goBot; 
+            this.connectNodes(markers, goBot); 
         }
-        if(typeof(markers[i+','+(j+1)]) != 'undefined' && markers[i+','+j].right == null){                   //go right
-            markers[i+','+j].right = markers[i+','+(j+1)];  
-            this.connectNodes(markers, markers[i+','+(j+1)]);   
+        if(typeof(goTop) !== 'undefined' && node.top === null){                  //go top
+            node.top = goTop; 
+            this.connectNodes(markers, goTop);  
         }
-        if(typeof(markers[i+','+(j-1)]) != 'undefined' && markers[i+','+j].left == null){                     //go left
-            markers[i+','+j].left = markers[i+','+(j-1)]; 
-            this.connectNodes(markers, markers[i+','+(j-1)]);      
+        if(typeof(goRight) !== 'undefined' && node.right === null){              //go right
+            node.right = goRight;  
+            this.connectNodes(markers, goRight);   
         }
-        if(typeof(markers[(i-1)+','+(j-1)]) != 'undefined' && markers[i+','+j].dul == null){                    //go topleft
-            markers[i+','+j].dul = markers[(i-1)+','+(j-1)]; 
-            this.connectNodes(markers, markers[(i-1)+','+(j-1)]); 
+        if(typeof(goLeft) !== 'undefined' && node.left === null){                //go left
+            node.left = goLeft; 
+            this.connectNodes(markers, goLeft);      
         }
-        if(typeof(markers[(i-1)+','+(j+1)]) != 'undefined' && markers[i+','+j].dur == null){                    //go topright
-            markers[i+','+j].dur = markers[(i-1)+','+(j+1)]; 
-            this.connectNodes(markers, markers[(i-1)+','+(j+1)]);  
+        if(typeof(goTopLeft) !== 'undefined' && node.dul === null){               //go topleft
+            node.dul = goTopLeft; 
+            this.connectNodes(markers, goTopLeft); 
         }
-        if(typeof(markers[(i+1)+','+(j-1)]) != 'undefined' && markers[i+','+j].ddl == null){                   //go botleft
-            markers[i+','+j].ddl = markers[(i+1)+','+(j-1)];  
-            this.connectNodes(markers, markers[(i+1)+','+(j-1)]);   
+        if(typeof(goTopRight) !== 'undefined' && node.dur === null){               //go topright
+            node.dur = goTopRight; 
+            this.connectNodes(markers, goTopRight);  
         }
-        if(typeof(markers[(i+1)+','+(j+1)]) != 'undefined' && markers[i+','+j].ddr == null){                     //go botright
-            markers[i+','+j].ddr = markers[(i+1)+','+(j+1)]; 
-            this.connectNodes(markers, markers[(i+1)+','+(j+1)]);      
+        if(typeof(goBotLeft) !== 'undefined' && node.ddl === null){                //go botleft
+            node.ddl = goBotLeft;  
+            this.connectNodes(markers, goBotLeft);   
+        }
+        if(typeof(goBotRight) !== 'undefined' && node.ddr === null){                //go botright
+            node.ddr = goBotRight; 
+            this.connectNodes(markers, goBotRight);      
         }
         return markers;
     },
 
-    // Go though the chosen word, and see if the next letter matches in any direction, if so, proceed in that direction and keep checking
-    checkWord: function(node, word, index, direction){
-        if(index==0){
-            if (node.top && node.top.letter == word[index+1]) {
-                return this.checkWord(node['top'], word, index+1, 'top');                        
-            }
-            else if (node.dul &&  node.dul.letter == word[index+1]) {
-                return this.checkWord(node['dul'], word, index+1, 'dul');
-            }
-            else if (node.left && node.left.letter == word[index+1]) {
-                return this.checkWord(node['left'], word, index+1, 'left');
-            }
-            else if (node.ddl && node.ddl.letter == word[index+1]) {
-                return this.checkWord(node['ddl'], word, index+1, 'ddl');
-            }
-            else if (node.bot && node.bot.letter == word[index+1]) {
-                return this.checkWord(node['bot'], word, index+1, 'bot');
-            }
-            else if (node.ddr && node.ddr.letter == word[index+1]) {
-                return this.checkWord(node['ddr'], word, index+1, 'ddr');
-            }
-            else if (node.right && node.right.letter == word[index+1]) {
-                return this.checkWord(node['right'], word, index+1, 'right');
-            }
-            else if (node.dur && node.dur.letter == word[index+1]) {
-                return this.checkWord(node['dur'], word, index+1, 'dur');
-            }
-            else {
-                return false;
-            }
-        }
-        else if (index > 0 && index < word.length-1){
-            if(word[index]==node.letter && node[direction]){
-                return this.checkWord(node[direction], word, index+1, direction);
-            }
-            else{
-                return false;
-            }
-        }
-        else if(index == word.length-1){
-            if(word[index]==node.letter){
-                return direction;
-            }
-            else{
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    
-    },
 
-    //putter and getter methods for storing foundWords
+    //setter and getter methods for storing foundWords
     getWords: function(){
         if(!this.foundWords){
             this.foundWords = [];
@@ -198,42 +164,98 @@ module.exports = {
         }
     },
 
-    //go through all letters in the scramble, see if it starts with any in the wordList, if it does, run findWords for each.
-    findWords: function(markers, words, node){
-        if(typeof node.searched === 'undefined'){
-            node.searched=false;
+    // Go though the chosen word, and see if the next letter matches in any direction, 
+    // if so, proceed in that direction and keep checking
+    checkWord: function(node, word, index, direction){
+        var wordFound = false;
+        if(index==0){
+            console.log('in index=0. Letter: ' + word[index] + " word: " + word);
+            if (node.top && node.top.letter == word[index+1]) {
+                this.checkWord(node['top'], word, index+1, 'top');                 
+            }
+            if (node.dul && node.dul.letter == word[index+1]) {
+                this.checkWord(node['dul'], word, index+1, 'dul');
+            }
+            if (node.left && node.left.letter == word[index+1]) {
+                this.checkWord(node['left'], word, index+1, 'left');
+            }
+            if (node.ddl && node.ddl.letter == word[index+1]) {
+                this.checkWord(node['ddl'], word, index+1, 'ddl');
+            }
+            if (node.bot && node.bot.letter == word[index+1]) {
+                this.checkWord(node['bot'], word, index+1, 'bot');
+            }
+            if (node.ddr && node.ddr.letter == word[index+1]) {
+                this.checkWord(node['ddr'], word, index+1, 'ddr');
+            }
+            if (node.right && node.right.letter == word[index+1]) {
+                this.checkWord(node['right'], word, index+1, 'right');
+            }
+            if (node.dur && node.dur.letter == word[index+1]) {
+                this.checkWord(node['dur'], word, index+1, 'dur');
+            }
+            return false;           //cases where letter does not match
         }
-        if(!node.searched){
-            for (var i = 0; i < words.length; i++) {
-                if(words[i][0]==node.letter){
-                    var foundWord = this.checkWord(node, words[i], 0);
-                    if(foundWord){
-                        var str = words[i].join("")
-                        var directionCopy = foundWord;
-                        var item =  {
-                                    XAxis: node.coordX,
-                                    YAxis: node.coordY,                      
-                                    word: str,
-                                    }
-                        item.direction = directionCopy;
-                        this.addWords(item)
-                        words.splice (i, 1);
-                    }
+        else if (index > 0 && index < word.length-1){
+            if(node){
+                if(word[index]==node.letter){
+                    this.checkWord(node[direction], word, index+1, direction);
+                }
+                else{
+                    return false;       //cases where letter does not match
                 }
             }
-            
-            node.searched = true;
-            if (node.top) { var top = this.findWords(markers, words, node.top);     }
-            if (node.dul) { var dul = this.findWords(markers, words, node.dul);     }
-            if (node.left){ var left = this.findWords(markers, words, node.left);    }                      
-            if (node.ddl) { var ddl = this.findWords(markers, words, node.ddl);     }  
-            if (node.bot) { var bot = this.findWords(markers, words, node.bot);     }  
-            if (node.ddr) { var ddr = this.findWords(markers, words, node.ddr);     }  
-            if (node.right){ var right = this.findWords(markers, words, node.right);  }  
-            if (node.dur) { var dur = this.findWords(markers, words, node.dur);     }
-            
+            return false;
         }
+        else if(index == word.length-1){
+            if(word[index]==node.letter){
+                console.log(words);
+                words.splice(this.wordI, 1);
+                console.log(words);
+                var str = word.join(""),
+                    item =  {
+                                XAxis: this.coordX,
+                                YAxis: this.coordY,                      
+                                word: str,
+                            };
+                    item.direction = direction;
+                    this.addWords(item);
+                    return true;
+            }
+            else{  
+                return false;       //cases where letter does not match
+            }
+        }
+        else {
+            return false;            //odd scenario, return null
+        }
+    
+    },
 
-        return;             
+    // go through all letters, and see if it matches the letter the word starts with, if so check if
+    // the word is what you're looking for by looking at neighbor letters
+    findWords: function(markers, words, node){
+        this.wordI = null;
+        this.coordX = null;
+        this.coordY = null;
+        if(!node.searched){
+            node.searched = true;
+            for (var i = 0; i < words.length; i++) {
+                if(words[i][0]==node.letter){
+                    this.wordI = i;
+                    this.coordX = node.coordX;
+                    this.coordY = node.coordY;
+                    this.checkWord(node, words[i], 0);
+                }
+            }
+        if (node.top && !node.top.searched)      { console.log('am i in top?'); this.findWords(markers, words, node.top);       }
+        if (node.dul && !node.dul.searched)      { console.log('am i in topleft?'); this.findWords(markers, words, node.dul);       }
+        if (node.left && !node.left.searched)    { console.log('am i in left?'); this.findWords(markers, words, node.left);      }                      
+        if (node.ddl && !node.ddl.searched)      { console.log('am i in botleft?'); this.findWords(markers, words, node.ddl);       }  
+        if (node.bot && !node.bot.searched)      { console.log('am i in bot?'); this.findWords(markers, words, node.bot);       }  
+        if (node.ddr && !node.ddr.searched)      { console.log('am i in botright?'); this.findWords(markers, words, node.ddr);       }  
+        if (node.right && !node.right.searched)  { console.log('am i in right?'); this.findWords(markers, words, node.right);     }  
+        if (node.dur && !node.dur.searched)      { console.log('am i in topright?'); this.findWords(markers, words, node.dur);       }
+        }
     }
 }

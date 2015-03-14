@@ -13,30 +13,28 @@ $( document ).ready(function(){
       			var colors = ['red', 'green', 'blue', 'orange', 'purple'];
       			for (var i = 0; i < data.length; i++) {
       				var colorRand = colors[Math.floor(Math.random() * colors.length)];
-      				var x = data[i].XAxis;
-      				var y = data[i].YAxis;
-      				var box = '#x'+ x.toString() + 'y' + y.toString();
-      				console.log(box,x,y);
-      				var length = data[i].word.length-1;
-      				var direction = data[i].direction;
-      				console.log(direction);
-      				var move = [0,0];
+      					x = data[i].XAxis,
+      					y = data[i].YAxis,
+      					box = '#x'+ x.toString() + 'y' + y.toString(),
+      					length = data[i].word.length-1,
+      					direction = data[i].direction,
+      					move = [0,0];
       				$(box).css('background-color', colorRand);
       				switch (direction){
       					case 'top':
-      						move = [-1,0];
-      						break;
-      					case 'bot':
-      						move = [1,0];
-      						break;
-       					case 'left':
       						move = [0,-1];
       						break;
-       					case 'right':
+      					case 'bot':
       						move = [0,1];
       						break;
+       					case 'left':
+      						move = [-1,0];
+      						break;
+       					case 'right':
+      						move = [1,0];
+      						break;
        					case 'dur':
-      						move = [-1,1];
+      						move = [1,-1];
       						break;
        					case 'dul':
       						move = [-1,-1];
@@ -45,7 +43,7 @@ $( document ).ready(function(){
       						move = [1,1];
       						break;
        					case 'ddl':
-      						move = [1,-1];
+      						move = [-1,1];
       						break;
       				}
       				while(length){
@@ -54,7 +52,7 @@ $( document ).ready(function(){
       					box = '#x'+ x.toString() + 'y' + y.toString();
       					length--;
       					var $temp = $('<div style="background:none;display:none;"/>').appendTo('body');
-							var transparent = $temp.css('backgroundColor');
+						var transparent = $temp.css('backgroundColor');
 						$temp.remove();
       					if ( $(box).css('backgroundColor') != transparent ) {
       						$(box).css('background-color', '#CBCBCB');	
