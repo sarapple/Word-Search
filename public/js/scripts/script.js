@@ -5,6 +5,7 @@ $( document ).ready(function(){
 	
 	// get answers
 	$( "button" ).click(function(e) {
+		$('td').css('background-color', 'transparent');
 		$.ajax({
 			method: "GET",
       		url: "/words",
