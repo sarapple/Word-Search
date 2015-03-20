@@ -1,7 +1,7 @@
 $( document ).ready(function(){
 	//some view settings on load
 	var height = $("table").height();
-	$('ul').css('height', height);
+	$('ul').css('height', height-20);
 	
 	// get answers
 	$( "button" ).click(function(e) {
