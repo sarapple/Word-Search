@@ -1,15 +1,10 @@
-// require mongo models and use schema created in server/models
-var mongoose= require('mongoose'),
-    User    = mongoose.model('User'),
-    fs = require('fs');
-
+var fs = require('fs');
 module.exports = {
 
 	// Display the view that includes letters, words, and results
 	index: function(req, res){
         var letters = this.loadText("./public/puzzle/WordSearch.txt", 'utf8');
             words = this.loadText("./public/puzzle/WordList.txt", 'utf8'),
-            console.log(words);
             results = this.processWordSearch(letters,words);
             send = {    letters: letters,
                         words: words,
@@ -22,9 +17,7 @@ module.exports = {
     processWordSearch: function(letters, words){
         var markers =   this.nodesCreated(letters);
             markers =   this.connectNodes(markers, markers['0,0']);
-            console.log(markers['0,11']);
                         this.findWords(markers, words, markers['0,0']);
-                        console.log(markers['1,1']);
         return this.getWords();
     }, 
 
@@ -209,9 +202,7 @@ module.exports = {
         }
         else if(index == word.length-1){
             if(word[index]==node.letter){
-                console.log(words);
                 words.splice(this.wordI, 1);
-                console.log(words);
                 var str = word.join(""),
                     item =  {
                                 XAxis: this.coordX,
@@ -248,14 +239,14 @@ module.exports = {
                     this.checkWord(node, words[i], 0);
                 }
             }
-        if (node.top && !node.top.searched)      { console.log('am i in top?'); this.findWords(markers, words, node.top);       }
-        if (node.dul && !node.dul.searched)      { console.log('am i in topleft?'); this.findWords(markers, words, node.dul);       }
-        if (node.left && !node.left.searched)    { console.log('am i in left?'); this.findWords(markers, words, node.left);      }                      
-        if (node.ddl && !node.ddl.searched)      { console.log('am i in botleft?'); this.findWords(markers, words, node.ddl);       }  
-        if (node.bot && !node.bot.searched)      { console.log('am i in bot?'); this.findWords(markers, words, node.bot);       }  
-        if (node.ddr && !node.ddr.searched)      { console.log('am i in botright?'); this.findWords(markers, words, node.ddr);       }  
-        if (node.right && !node.right.searched)  { console.log('am i in right?'); this.findWords(markers, words, node.right);     }  
-        if (node.dur && !node.dur.searched)      { console.log('am i in topright?'); this.findWords(markers, words, node.dur);       }
+        if (node.top && !node.top.searched)      { this.findWords(markers, words, node.top);       }
+        if (node.dul && !node.dul.searched)      { this.findWords(markers, words, node.dul);       }
+        if (node.left && !node.left.searched)    { this.findWords(markers, words, node.left);      }                      
+        if (node.ddl && !node.ddl.searched)      { this.findWords(markers, words, node.ddl);       }  
+        if (node.bot && !node.bot.searched)      { this.findWords(markers, words, node.bot);       }  
+        if (node.ddr && !node.ddr.searched)      { this.findWords(markers, words, node.ddr);       }  
+        if (node.right && !node.right.searched)  { this.findWords(markers, words, node.right);     }  
+        if (node.dur && !node.dur.searched)      { this.findWords(markers, words, node.dur);       }
         }
     }
 }

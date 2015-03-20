@@ -1,20 +1,14 @@
 var express 	= require("express"),							// Load the express module
 	app 		= express(),									// Express application now stored in 'app'
-	path 		= require('path'),                            	// path: contains the URL to your root
-	config 		= require('./config/config'),    				// Path to mongoDB and other configurations
-	mongoose 	= require('./config/mongoose'),               	// require mongoose module, which speaks between node and mongoDB
+	path 		= require('path'),                            	// path: contains the URL to your root            
 	cookieParser= require('cookie-parser'),					
-	session 	= require('express-session'),
-	bodyParser 	= require('body-parser'),						// Handle post data-require bodyparser
-	auth 		= require('basic-auth');						// Authenticate passwords
+	bodyParser 	= require('body-parser');						// Handle post data-require bodyparser
+
 
 app.use(bodyParser.urlencoded({ extended: true }));				// Use Bodyparser for post data
 app.use(bodyParser.json());
 
-app.use(cookieParser());
-app.use(session({	secret: 'brotherprinters', 					// Store session data			
-                	saveUninitialized: true,
-                 	resave: true				}));
+app.use(cookieParser());		
 
 app.use(express.static(	path.join(__dirname, 'public')));				// Serve js, css, and images
 app.use(express.static(	path.join(__dirname, 'server/controllers')));
@@ -31,5 +25,4 @@ console.log('**********                                                     ****
 console.log('**********                                                     **********');
 console.log('*************************************************************************\n');
 });
-// var io 			= require('socket.io').listen(server),				// Have io listen on same server
-	routes 		= require('./config/routes-ajax')(app);          	// Require routes files for ajax   
+routes 		= require('./config/routes-ajax')(app);          	// Require routes files for ajax   
