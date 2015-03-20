@@ -4,7 +4,6 @@ var express 	= require("express"),							// Load the express module
 	cookieParser= require('cookie-parser'),					
 	bodyParser 	= require('body-parser');						// Handle post data-require bodyparser
 
-
 app.use(bodyParser.urlencoded({ extended: true }));				// Use Bodyparser for post data
 app.use(bodyParser.json());
 
