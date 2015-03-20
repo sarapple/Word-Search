@@ -162,7 +162,6 @@ module.exports = {
     checkWord: function(node, word, index, direction){
         var wordFound = false;
         if(index==0){
-            console.log('in index=0. Letter: ' + word[index] + " word: " + word);
             if (node.top && node.top.letter == word[index+1]) {
                 this.checkWord(node['top'], word, index+1, 'top');                 
             }
@@ -201,20 +200,24 @@ module.exports = {
             return false;
         }
         else if(index == word.length-1){
-            if(word[index]==node.letter){
-                words.splice(this.wordI, 1);
-                var str = word.join(""),
-                    item =  {
-                                XAxis: this.coordX,
-                                YAxis: this.coordY,                      
-                                word: str,
-                            };
-                    item.direction = direction;
-                    this.addWords(item);
-                    return true;
+            if(node){
+                if(word[index]==node.letter){
+                    var str = word.join(""),
+                        item =  {
+                                    XAxis: this.coordX,
+                                    YAxis: this.coordY,                      
+                                    word: str,
+                                };
+                        item.direction = direction;
+                        this.addWords(item);
+                        return word;
+                }
+                else{  
+                    return false;       //cases where letter does not match
+                }
             }
-            else{  
-                return false;       //cases where letter does not match
+            else {
+                return false;
             }
         }
         else {
@@ -236,7 +239,10 @@ module.exports = {
                     this.wordI = i;
                     this.coordX = node.coordX;
                     this.coordY = node.coordY;
-                    this.checkWord(node, words[i], 0);
+                    if(this.checkWord(node, words[i], 0)){              //INDEX WAS OFF WHEN CHECKING SAME NODE, DIFFERENT WORD.
+                        words.splice(i, 1);                            
+                        word.length--;                 
+                    }
                 }
             }
         if (node.top && !node.top.searched)      { this.findWords(markers, words, node.top);       }
